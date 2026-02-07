@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Algorithms Intelligence | MYCART</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+
+body{
+background:linear-gradient(135deg,#eef3ff,#fff0f6);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+width:240px;height:100vh;position:fixed;
+background:white;padding:25px;
+box-shadow:0 0 30px rgba(0,0,0,.18)
+}
+.sidebar h2{margin-bottom:30px}
+.sidebar a{
+display:block;padding:12px;border-radius:10px;
+margin-bottom:8px;text-decoration:none;color:#333;font-weight:500
+}
+.sidebar a.active,.sidebar a:hover{
+background:linear-gradient(45deg,#4361ee,#7209b7);
+color:white
+}
+
+/* ===== MAIN ===== */
+.main{margin-left:260px;padding:45px}
+
+/* ===== SECTION ===== */
+.section{
+background:white;
+padding:45px;
+border-radius:30px;
+box-shadow:0 35px 90px rgba(0,0,0,.22);
+margin-bottom:65px;
+position:relative;
+overflow:hidden
+}
+.section::after{
+content:"";
+position:absolute;top:0;right:0;
+width:160px;height:160px;
+background:linear-gradient(135deg,#4361ee,#f72585);
+opacity:.08;border-radius:0 0 0 160px
+}
+.section h1,.section h2{
+background:linear-gradient(45deg,#4361ee,#f72585);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-weight:900
+}
+.section p{
+color:#555;margin-top:14px;line-height:1.9;
+font-size:1.05rem
+}
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;margin-top:35px
+}
+.card{
+background:linear-gradient(135deg,#ffffff,#eef2ff);
+padding:30px;border-radius:26px;
+box-shadow:0 30px 65px rgba(0,0,0,.25);
+transition:.3s
+}
+.card:hover{
+transform:translateY(-12px);
+box-shadow:0 50px 100px rgba(0,0,0,.35)
+}
+.card h3{color:#4361ee;margin-bottom:12px}
+.metric{
+display:flex;justify-content:space-between;
+margin-top:10px;font-weight:800;color:#444
+}
+
+/* ===== TABLE ===== */
+table{width:100%;border-collapse:collapse;margin-top:35px}
+th,td{padding:20px}
+th{
+background:linear-gradient(135deg,#eef2ff,#f9e9ff);
+font-weight:900
+}
+tr:hover{background:#f6f8ff}
+.badge{
+padding:7px 18px;border-radius:28px;
+font-size:13px;font-weight:900
+}
+.cb{background:#e7edff;color:#4361ee}
+.cf{background:#eafff3;color:#2ecc71}
+.hy{background:#fff0f6;color:#f72585}
+.pop{background:#fff4d6;color:#f39c12}
+.ctx{background:#e8fbff;color:#4cc9f0}
+
+/* ===== INSIGHTS ===== */
+.insight{
+display:flex;gap:24px;margin-top:28px
+}
+.insight i{
+font-size:32px;
+background:linear-gradient(45deg,#4361ee,#f72585);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent
+}
+
+/* ===== FLOW ===== */
+.flow{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:25px;margin-top:30px
+}
+.step{
+background:linear-gradient(135deg,#ffffff,#f1f5ff);
+padding:25px;border-radius:22px;
+box-shadow:0 25px 55px rgba(0,0,0,.2);
+text-align:center;
+font-weight:700
+}
+
+.footer{text-align:center;margin:70px 0;color:#777}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h2>🛒 MYCART</h2>
+<a href="/">Dashboard</a>
+<a href="/recommendation">Recommendations</a>
+<a href="/analytics">Analytics</a>
+<a href="/products">Products</a>
+<a href="/users">Users</a>
+<a class="active">Algorithms</a>
+</div>
+<ul class="nav-links">
+
+<li>
+<a href="/" class="{% if request.path == '/' %}active{% endif %}">
+<i class="fas fa-chart-line"></i> Dashboard
+</a>
+</li>
+
+<li>
+<a href="/recommendations" class="{% if request.path == '/recommendations' %}active{% endif %}">
+<i class="fas fa-star"></i> Recommendations
+</a>
+</li>
+
+<li>
+<a href="/analytics" class="{% if request.path == '/analytics' %}active{% endif %}">
+<i class="fas fa-chart-bar"></i> Analytics
+</a>
+</li>
+
+<li>
+<a href="/products" class="{% if request.path == '/products' %}active{% endif %}">
+<i class="fas fa-box-open"></i> Products
+</a>
+</li>
+
+<li>
+<a href="/users" class="{% if request.path == '/users' %}active{% endif %}">
+<i class="fas fa-users"></i> Users
+</a>
+</li>
+
+<li>
+<a href="/algorithms" class="{% if request.path == '/algorithms' %}active{% endif %}">
+<i class="fas fa-cogs"></i> Algorithms
+</a>
+</li>
+
+</ul>
+
+<div class="main">
+
+<!-- SECTION 1 -->
+<div class="section">
+<h1>Recommendation Algorithms Intelligence</h1>
+<p>
+This page explains all recommendation algorithms used in the system,
+their working logic, strengths, weaknesses, and real-time performance
+metrics based on user interactions and product data.
+</p>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+<h2>Algorithm Portfolio Overview</h2>
+
+<div class="grid">
+<div class="card">
+<h3>Content-Based Filtering</h3>
+<div class="metric"><span>Personalization</span><span>High</span></div>
+<div class="metric"><span>Cold Start</span><span>Weak</span></div>
+<div class="metric"><span>Avg CTR</span><span>7.5%</span></div>
+</div>
+
+<div class="card">
+<h3>Collaborative Filtering</h3>
+<div class="metric"><span>Scalability</span><span>Medium</span></div>
+<div class="metric"><span>Cold Start</span><span>Weak</span></div>
+<div class="metric"><span>Avg CTR</span><span>8.2%</span></div>
+</div>
+
+<div class="card">
+<h3>Hybrid Algorithm</h3>
+<div class="metric"><span>Accuracy</span><span>Very High</span></div>
+<div class="metric"><span>Robustness</span><span>Strong</span></div>
+<div class="metric"><span>Avg CTR</span><span>9.6%</span></div>
+</div>
+
+<div class="card">
+<h3>Popularity-Based</h3>
+<div class="metric"><span>Stability</span><span>High</span></div>
+<div class="metric"><span>Personalization</span><span>Low</span></div>
+<div class="metric"><span>Avg CTR</span><span>6.1%</span></div>
+</div>
+
+<div class="card">
+<h3>Context-Aware</h3>
+<div class="metric"><span>Adaptability</span><span>High</span></div>
+<div class="metric"><span>Data Need</span><span>High</span></div>
+<div class="metric"><span>Avg CTR</span><span>8.9%</span></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section">
+<h2>Algorithm Performance Comparison</h2>
+
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>CTR</th>
+<th>Conversion</th>
+<th>Coverage</th>
+<th>AI Confidence</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><span class="badge cb">Content-Based</span></td>
+<td>7.5%</td>
+<td>3.8%</td>
+<td>65%</td>
+<td>78%</td>
+<td>Active</td>
+</tr>
+
+<tr>
+<td><span class="badge cf">Collaborative</span></td>
+<td>8.2%</td>
+<td>4.1%</td>
+<td>71%</td>
+<td>84%</td>
+<td>Active</td>
+</tr>
+
+<tr>
+<td><span class="badge hy">Hybrid</span></td>
+<td>9.6%</td>
+<td>5.2%</td>
+<td>82%</td>
+<td>92%</td>
+<td>Primary</td>
+</tr>
+
+<tr>
+<td><span class="badge pop">Popularity</span></td>
+<td>6.1%</td>
+<td>3.0%</td>
+<td>100%</td>
+<td>69%</td>
+<td>Fallback</td>
+</tr>
+
+<tr>
+<td><span class="badge ctx">Context-Aware</span></td>
+<td>8.9%</td>
+<td>4.8%</td>
+<td>74%</td>
+<td>88%</td>
+<td>Experimental</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section">
+<h2>Hybrid Recommendation Flow</h2>
+
+<div class="flow">
+<div class="step">User Profile Analysis</div>
+<div class="step">Product Feature Vector</div>
+<div class="step">Similarity Computation</div>
+<div class="step">Collaborative Weighting</div>
+<div class="step">Context Adjustment</div>
+<div class="step">Final Ranking</div>
+</div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section">
+<h2>AI Algorithm Insights</h2>
+
+<div class="insight">
+<i class="fas fa-brain"></i>
+<div>
+<b>Hybrid algorithm delivers the highest accuracy</b>
+<p>Combines user similarity with content relevance for balanced recommendations.</p>
+</div>
+</div>
+
+<div class="insight">
+<i class="fas fa-users"></i>
+<div>
+<b>Collaborative filtering excels for returning users</b>
+<p>Behavioral history improves similarity calculations.</p>
+</div>
+</div>
+
+<div class="insight">
+<i class="fas fa-bolt"></i>
+<div>
+<b>Popularity-based algorithm ensures system stability</b>
+<p>Acts as fallback during cold-start scenarios.</p>
+</div>
+</div>
+
+<div class="insight">
+<i class="fas fa-map-marker-alt"></i>
+<div>
+<b>Context-aware algorithms adapt to real-world conditions</b>
+<p>Time, device, and location improve relevance.</p>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+AI-Powered Algorithm Intelligence • MYCART
+<!-- SECTION 7 -->
+<div class="section">
+<h2>Algorithm Selection Strategy</h2>
+
+<p>
+The system dynamically selects algorithms based on user type, data availability,
+and context conditions.
+</p>
+
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Algorithm Used</th>
+<th>Reason</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>New User (Cold Start)</td>
+<td>Popularity + Content</td>
+<td>No historical behavior available</td>
+</tr>
+
+<tr>
+<td>Returning User</td>
+<td>Collaborative + Hybrid</td>
+<td>Rich interaction history</td>
+</tr>
+
+<tr>
+<td>VIP User</td>
+<td>Hybrid (High Weight)</td>
+<td>High revenue impact</td>
+</tr>
+
+<tr>
+<td>Time / Location Sensitive</td>
+<td>Context-Aware</td>
+<td>Environment-based relevance</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

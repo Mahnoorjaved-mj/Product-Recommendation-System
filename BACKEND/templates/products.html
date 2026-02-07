@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Products | MYCART</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --primary:#4361ee;
+  --secondary:#7209b7;
+  --accent:#ff9900;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* ===== TOP BAR ===== */
+.header{
+  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.logo{
+  font-size:22px;
+  font-weight:800;
+  color:#fff;
+}
+.logo span{color:#ffdd57}
+
+.searchbar{
+  flex:1;
+  display:flex;
+}
+.searchbar input{
+  width:100%;
+  padding:12px 14px;
+  border:none;
+  border-radius:8px 0 0 8px;
+  outline:none;
+}
+.searchbar button{
+  padding:12px 18px;
+  border:none;
+  background:var(--accent);
+  border-radius:0 8px 8px 0;
+  cursor:pointer;
+}
+
+/* ===== PAGE ===== */
+.container{
+  padding:30px;
+}
+
+.filters{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
+.filters select{
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:white;
+  font-weight:500;
+}
+
+/* ===== PRODUCT GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:24px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transition:.25s;
+  display:flex;
+  flex-direction:column;
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.img{
+  height:200px;
+  background:#f3f4f6;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  color:#9ca3af;
+  margin-bottom:14px;
+}
+
+.title{
+  font-size:15px;
+  font-weight:600;
+  line-height:1.4;
+  height:42px;
+  overflow:hidden;
+}
+
+.rating{
+  color:#f59e0b;
+  font-size:13px;
+  margin:6px 0;
+}
+
+.price{
+  font-size:20px;
+  font-weight:800;
+}
+.mrp{
+  font-size:13px;
+  color:var(--muted);
+  text-decoration:line-through;
+  margin-left:6px;
+}
+
+.ship{
+  font-size:13px;
+  color:var(--primary);
+  margin:6px 0 12px;
+}
+
+.btn{
+  margin-top:auto;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,var(--primary),var(--secondary));
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+.btn:hover{filter:brightness(1.1)}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="logo">MY<span>CART</span></div>
+  <div class="searchbar">
+    <input id="search" placeholder="Search products..." />
+    <button><i class="fa fa-search"></i></button>
+  </div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="container">
+
+  <div class="filters">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+    </select>
+
+    <select id="sortFilter">
+      <option value="rating">Sort by Rating</option>
+      <option value="price">Sort by Price</option>
+    </select>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+</div>
+
+<script>
+let allProducts = [];
+
+// ===== LOAD PRODUCTS FROM CSV (FLASK API) =====
+fetch("/api/products")
+  .then(res => res.json())
+  .then(data => {
+    allProducts = data;
+    populateCategories(data);
+    render(data);
+  });
+
+// ===== CATEGORY DROPDOWN =====
+function populateCategories(data){
+  const sel = document.getElementById("categoryFilter");
+  [...new Set(data.map(p=>p.category))].forEach(c=>{
+    let o=document.createElement("option");
+    o.value=c;
+    o.textContent=c;
+    sel.appendChild(o);
+  });
+}
+
+// ===== RENDER PRODUCTS =====
+function render(list){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+  list.forEach(p=>{
+    grid.innerHTML += `
+      <div class="card">
+        <div class="img"><i class="fa fa-box"></i></div>
+        <div class="title">${p.product_name}</div>
+        <div class="rating">${"★".repeat(Math.round(p.rating))} (${p.rating})</div>
+        <div class="price">Rs ${p.discounted_price}
+          <span class="mrp">Rs ${Math.round(p.discounted_price*1.4)}</span>
+        </div>
+        <div class="ship">FREE Delivery • Prime</div>
+        <button class="btn" onclick="openProduct('${p.product_link}')">
+          View Product
+        </button>
+      </div>
+    `;
+  });
+}
+
+// ===== SEARCH =====
+document.getElementById("search").addEventListener("input",e=>{
+  const q=e.target.value.toLowerCase();
+  render(allProducts.filter(p =>
+    p.product_name.toLowerCase().includes(q)
+  ));
+});
+
+// ===== CATEGORY FILTER =====
+document.getElementById("categoryFilter").addEventListener("change",e=>{
+  if(e.target.value==="all") render(allProducts);
+  else render(allProducts.filter(p=>p.category===e.target.value));
+});
+
+// ===== SORT =====
+document.getElementById("sortFilter").addEventListener("change",e=>{
+  let arr=[...allProducts];
+  if(e.target.value==="rating") arr.sort((a,b)=>b.rating-a.rating);
+  else arr.sort((a,b)=>a.discounted_price-b.discounted_price);
+  render(arr);
+});
+
+function openProduct(link){
+  if(link && link!=="nan") window.open(link,"_blank");
+  else alert("Product link not available");
+}
+</script>
+<script>
+fetch("/api/products")
+.then(res => res.json())
+.then(products => {
+  const container = document.getElementById("productsGrid");
+  container.innerHTML = "";
+
+  products.forEach(p => {
+    container.innerHTML += `
+      <div class="product-card">
+        <div class="product-img">
+          <i class="fas fa-box"></i>
+        </div>
+        <div class="product-info">
+          <h4>${p.product_name}</h4>
+          <p class="category">${p.category}</p>
+          <p class="rating">⭐ ${p.rating}</p>
+          <p class="price">Rs ${p.discounted_price}</p>
+          <button>Add to Cart</button>
+        </div>
+      </div>
+    `;
+  });
+});
+</script>
+
+</body>
+</html>

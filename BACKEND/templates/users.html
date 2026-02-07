@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Users | MYCART</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+
+body{
+background:linear-gradient(135deg,#eef3ff,#fff0f6);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+width:250px;height:100vh;position:fixed;
+background:white;padding:25px;
+box-shadow:0 0 30px rgba(0,0,0,.15)
+}
+.sidebar h2{margin-bottom:30px}
+.sidebar a{
+display:block;padding:12px;border-radius:10px;
+margin-bottom:8px;text-decoration:none;color:#333;font-weight:500
+}
+.sidebar a.active,.sidebar a:hover{
+background:linear-gradient(45deg,#4361ee,#7209b7);
+color:white
+}
+
+/* ===== MAIN ===== */
+.main{margin-left:260px;padding:45px}
+
+/* ===== SECTION ===== */
+.section{
+background:white;
+padding:45px;
+border-radius:28px;
+box-shadow:0 35px 80px rgba(0,0,0,.2);
+margin-bottom:60px;
+position:relative;
+overflow:hidden
+}
+.section::after{
+content:"";
+position:absolute;top:0;right:0;
+width:140px;height:140px;
+background:linear-gradient(135deg,#4361ee,#f72585);
+opacity:.08;border-radius:0 0 0 140px
+}
+.section h1,.section h2{
+background:linear-gradient(45deg,#4361ee,#f72585);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-weight:900
+}
+.section p{
+color:#555;margin-top:14px;line-height:1.9;
+font-size:1.05rem
+}
+
+/* ===== METRIC GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:28px;margin-top:35px
+}
+.card{
+background:linear-gradient(135deg,#ffffff,#eef2ff);
+padding:30px;border-radius:24px;
+box-shadow:0 25px 55px rgba(0,0,0,.2);
+transition:.3s
+}
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 45px 90px rgba(0,0,0,.3)
+}
+.card h3{color:#4361ee;margin-bottom:12px}
+.metric{
+display:flex;justify-content:space-between;
+margin-top:10px;font-weight:700;color:#444
+}
+
+/* ===== SEGMENTS ===== */
+.segment{
+background:linear-gradient(135deg,#ffffff,#f6ecff);
+padding:30px;border-radius:24px;
+box-shadow:0 25px 55px rgba(0,0,0,.18);
+margin-bottom:30px
+}
+.segment-title{
+font-size:1.4rem;font-weight:800;color:#4361ee;
+margin-bottom:15px
+}
+.segment-stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px
+}
+.stat{
+background:white;padding:20px;border-radius:18px;
+box-shadow:0 15px 35px rgba(0,0,0,.15);
+text-align:center
+}
+.stat span{
+display:block;font-size:1.8rem;font-weight:900
+}
+
+/* ===== TABLE ===== */
+table{width:100%;border-collapse:collapse;margin-top:30px}
+th,td{padding:18px}
+th{
+background:linear-gradient(135deg,#eef2ff,#f9e9ff);
+font-weight:800
+}
+tr:hover{background:#f6f8ff}
+.badge{
+padding:7px 16px;border-radius:25px;
+font-size:13px;font-weight:800
+}
+.new{background:#e7edff;color:#4361ee}
+.returning{background:#eafff3;color:#2ecc71}
+.vip{background:#fff0f6;color:#f72585}
+
+/* ===== AI INSIGHTS ===== */
+.insight{
+display:flex;gap:22px;margin-top:25px
+}
+.insight i{
+font-size:30px;
+background:linear-gradient(45deg,#4361ee,#f72585);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent
+}
+
+.footer{text-align:center;margin:60px 0;color:#777}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h2>🛒 MYCART</h2>
+<a href="/">Dashboard</a>
+<a href="/recommendation">Recommendations</a>
+<a href="/analytics">Analytics</a>
+<a href="/products">Products</a>
+<a class="active">Users</a>
+<a href="/algorithms">Algorithms</a>
+</div>
+<ul class="nav-links">
+
+<li>
+<a href="/" class="{% if request.path == '/' %}active{% endif %}">
+<i class="fas fa-chart-line"></i> Dashboard
+</a>
+</li>
+
+<li>
+<a href="/recommendations" class="{% if request.path == '/recommendations' %}active{% endif %}">
+<i class="fas fa-star"></i> Recommendations
+</a>
+</li>
+
+<li>
+<a href="/analytics" class="{% if request.path == '/analytics' %}active{% endif %}">
+<i class="fas fa-chart-bar"></i> Analytics
+</a>
+</li>
+
+<li>
+<a href="/products" class="{% if request.path == '/products' %}active{% endif %}">
+<i class="fas fa-box-open"></i> Products
+</a>
+</li>
+
+<li>
+<a href="/users" class="{% if request.path == '/users' %}active{% endif %}">
+<i class="fas fa-users"></i> Users
+</a>
+</li>
+
+<li>
+<a href="/algorithms" class="{% if request.path == '/algorithms' %}active{% endif %}">
+<i class="fas fa-cogs"></i> Algorithms
+</a>
+</li>
+
+</ul>
+
+
+<div class="main">
+
+<!-- SECTION 1 -->
+<div class="section">
+<h1>User & Behavioral Analysis</h1>
+<p>
+This page provides an in-depth AI-based analysis of user behavior, segmentation,
+engagement patterns, and recommendation responsiveness across the platform.
+</p>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section">
+<h2>User Overview Metrics</h2>
+
+<div class="grid">
+<div class="card">
+<h3>Total Users</h3>
+<div class="metric"><span>Count</span><span>12,480</span></div>
+<div class="metric"><span>Growth</span><span>+14%</span></div>
+</div>
+
+<div class="card">
+<h3>Active Users</h3>
+<div class="metric"><span>Monthly</span><span>8,240</span></div>
+<div class="metric"><span>Engagement</span><span>73%</span></div>
+</div>
+
+<div class="card">
+<h3>AI-Profiled Users</h3>
+<div class="metric"><span>Coverage</span><span>68%</span></div>
+<div class="metric"><span>Accuracy</span><span>88%</span></div>
+</div>
+
+<div class="card">
+<h3>High-Value Users</h3>
+<div class="metric"><span>VIP</span><span>1,120</span></div>
+<div class="metric"><span>Revenue Share</span><span>42%</span></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section">
+<h2>User Segmentation (AI-Based)</h2>
+
+<div class="segment">
+<div class="segment-title">🆕 New Users</div>
+<div class="segment-stats">
+<div class="stat"><span>24%</span>CTR</div>
+<div class="stat"><span>6.8%</span>Conversion</div>
+<div class="stat"><span>Low</span>Retention</div>
+</div>
+</div>
+
+<div class="segment">
+<div class="segment-title">🔁 Returning Users</div>
+<div class="segment-stats">
+<div class="stat"><span>32%</span>CTR</div>
+<div class="stat"><span>9.4%</span>Conversion</div>
+<div class="stat"><span>High</span>Loyalty</div>
+</div>
+</div>
+
+<div class="segment">
+<div class="segment-title">💎 VIP Users</div>
+<div class="segment-stats">
+<div class="stat"><span>48%</span>CTR</div>
+<div class="stat"><span>18.2%</span>Conversion</div>
+<div class="stat"><span>Very High</span>Lifetime Value</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section">
+<h2>User Recommendation Interaction</h2>
+
+<table>
+<thead>
+<tr>
+<th>User Type</th>
+<th>Avg CTR</th>
+<th>Conversion</th>
+<th>AI Confidence</th>
+<th>Priority</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><span class="badge new">New</span></td>
+<td>24%</td>
+<td>6.8%</td>
+<td>72%</td>
+<td>Medium</td>
+</tr>
+
+<tr>
+<td><span class="badge returning">Returning</span></td>
+<td>32%</td>
+<td>9.4%</td>
+<td>85%</td>
+<td>High</td>
+</tr>
+
+<tr>
+<td><span class="badge vip">VIP</span></td>
+<td>48%</td>
+<td>18.2%</td>
+<td>94%</td>
+<td>Critical</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section">
+<h2>AI Behavioral Insights</h2>
+
+<div class="insight">
+<i class="fas fa-brain"></i>
+<div>
+<b>Returning users respond best to personalized recommendations</b>
+<p>Historical interaction data significantly improves recommendation relevance.</p>
+</div>
+</div>
+
+<div class="insight">
+<i class="fas fa-chart-line"></i>
+<div>
+<b>VIP users generate disproportionate revenue</b>
+<p>Small user group contributes nearly half of total recommendation-driven sales.</p>
+</div>
+</div>
+
+<div class="insight">
+<i class="fas fa-user-clock"></i>
+<div>
+<b>New users require onboarding-based recommendations</b>
+<p>Cold-start strategies improve early engagement and retention.</p>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+AI-Powered User Intelligence • MYCART
+</div>
+
+</div>
+
+</body>
+</html>

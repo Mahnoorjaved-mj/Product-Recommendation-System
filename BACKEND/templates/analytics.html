@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Analytics | MYCART</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Inter,Arial;
+  background:#f4f6fb;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:240px;
+  background:#fff;
+  height:100vh;
+  position:fixed;
+  padding:20px;
+  box-shadow:0 0 20px rgba(0,0,0,.08);
+}
+.sidebar h2{margin-bottom:30px;}
+.sidebar a{
+  display:block;
+  padding:12px;
+  margin-bottom:10px;
+  text-decoration:none;
+  color:#333;
+  border-radius:8px;
+}
+.sidebar a.active,
+.sidebar a:hover{
+  background:#4361ee;
+  color:#fff;
+}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:260px;
+  padding:40px;
+}
+
+/* ===== HERO ===== */
+.hero{
+  background:linear-gradient(135deg,#4361ee,#7209b7);
+  color:white;
+  padding:40px;
+  border-radius:22px;
+}
+.hero h1{margin:0;font-size:34px;}
+.hero p{opacity:.9;}
+
+.kpis{
+  display:flex;
+  gap:15px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.kpi{
+  background:rgba(255,255,255,.15);
+  padding:14px 22px;
+  border-radius:40px;
+  font-weight:600;
+}
+.kpi span{font-weight:900;}
+
+/* ===== GRID ===== */
+.analytics-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:25px;
+  margin-top:30px;
+}
+.box{
+  background:#fff;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+.box h3{
+  margin-bottom:15px;
+  color:#4361ee;
+}
+
+/* ===== INSIGHTS ===== */
+.insights{margin-top:35px;}
+.insight{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 12px 25px rgba(0,0,0,.1);
+  margin-bottom:15px;
+  display:flex;
+  gap:15px;
+}
+.insight i{font-size:22px;color:#4361ee;}
+
+footer{
+  text-align:center;
+  margin-top:40px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>🛒 MYCART</h2>
+  <a href="/">Dashboard</a>
+  <a href="/recommendations">Recommendations</a>
+  <a class="active">Analytics</a>
+  <a href="/products">Products</a>
+  <a href="/users">Users</a>
+  <a href="/algorithms">Algorithms</a>
+</div>
+<ul class="nav-links">
+
+<li>
+<a href="/" class="{% if request.path == '/' %}active{% endif %}">
+<i class="fas fa-chart-line"></i> Dashboard
+</a>
+</li>
+
+<li>
+<a href="/recommendations" class="{% if request.path == '/recommendations' %}active{% endif %}">
+<i class="fas fa-star"></i> Recommendations
+</a>
+</li>
+
+<li>
+<a href="/analytics" class="{% if request.path == '/analytics' %}active{% endif %}">
+<i class="fas fa-chart-bar"></i> Analytics
+</a>
+</li>
+
+<li>
+<a href="/products" class="{% if request.path == '/products' %}active{% endif %}">
+<i class="fas fa-box-open"></i> Products
+</a>
+</li>
+
+<li>
+<a href="/users" class="{% if request.path == '/users' %}active{% endif %}">
+<i class="fas fa-users"></i> Users
+</a>
+</li>
+
+<li>
+<a href="/algorithms" class="{% if request.path == '/algorithms' %}active{% endif %}">
+<i class="fas fa-cogs"></i> Algorithms
+</a>
+</li>
+
+</ul>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>AI Performance Analytics</h1>
+    <p>Understanding how recommendations impact user behavior</p>
+
+    <div class="kpis">
+      <div class="kpi">📈 CTR <span>8.4%</span></div>
+      <div class="kpi">🛒 Conversion <span>4.7%</span></div>
+      <div class="kpi">💰 Revenue <span>Rs 185K</span></div>
+      <div class="kpi">👥 Engagement <span>73%</span></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="analytics-grid">
+    <div class="box">
+      <h3>User Interaction Trend</h3>
+      <canvas id="trendChart"></canvas>
+    </div>
+
+    <div class="box">
+      <h3>Recommendation Confidence</h3>
+      <canvas id="confidenceChart"></canvas>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="insights">
+    <div class="insight">
+      <i class="fas fa-brain"></i>
+      <div>
+        <b>AI Confidence Improving</b>
+        <p>More than half of recommendations are marked highly relevant</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <i class="fas fa-user-check"></i>
+      <div>
+        <b>User Trust Increasing</b>
+        <p>Users increasingly interact with AI-suggested products</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <i class="fas fa-chart-line"></i>
+      <div>
+        <b>Consistent Growth</b>
+        <p>CTR and conversions show stable upward trend</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    RecAI – AI Powered Recommendation Analytics
+  </footer>
+
+</div>
+
+<!-- CHARTS -->
+<script>
+new Chart(document.getElementById("trendChart"),{
+ type:"line",
+ data:{
+  labels:["Jan","Feb","Mar","Apr","May","Jun"],
+  datasets:[{
+   label:"CTR %",
+   data:[5,6,6.5,8,9,8.7],
+   borderColor:"#4361ee",
+   tension:.4,
+   fill:false
+  }]
+ }
+});
+
+new Chart(document.getElementById("confidenceChart"),{
+ type:"doughnut",
+ data:{
+  labels:["Highly Relevant","Relevant","Low Relevance"],
+  datasets:[{
+   data:[55,30,15],
+   backgroundColor:["#2ecc71","#f1c40f","#e74c3c"]
+  }]
+ },
+ options:{
+  plugins:{legend:{position:"bottom"}}
+ }
+});
+</script>
+
+</body>
+</html>
